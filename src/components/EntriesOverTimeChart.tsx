@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Checkin } from "../types/checkin";
-import { buildHourlyData } from "../utils/buildHourlyData";
+import { buildCumulativeHourlyData } from "../utils/buildHourlyData";
 import { CustomTooltip } from "./CustomTooltip";
 
 export default function EntriesOverTimeChart({
@@ -18,7 +18,7 @@ export default function EntriesOverTimeChart({
 }: {
   checkins: Checkin[];
 }) {
-  const data = buildHourlyData(checkins);
+  const data = buildCumulativeHourlyData(checkins);
 
   if (data.length === 0) {
     return (

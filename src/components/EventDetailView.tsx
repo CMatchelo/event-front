@@ -9,11 +9,12 @@ import EntriesOverTimeChart from "./EntriesOverTimeChart";
 import { formatDate } from "../utils/formatDate";
 import { SkeletonDetailPage } from "./SkeletonDetailPage";
 import { StatCard } from "./StatCard";
+import ParticipantsTable from "./ParticipantsTable";
 
 export default function EventDetailView({ id }: { id: string }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { event, checkins, loading, error } = useAppSelector(
+  const { event, checkins, participants, loading, error } = useAppSelector(
     (s) => s.eventDetail,
   );
 
@@ -286,6 +287,9 @@ export default function EventDetailView({ id }: { id: string }) {
                 <CheckinProportionChart checkins={checkins} />
               </div>
             </div>
+
+            {/* Participants table */}
+            <ParticipantsTable participants={participants} event={event} />
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { fetchEvents, setSearchQuery, setStatusFilter, toggleSortDate } from '@/src/store/eventsSlice';
-import { EventStatus } from '@/src/types';
+import { EventStatus } from '@/src/types/Event';
 import EventCard from './EventCard';
 
 const STATUS_OPTIONS: { label: string; value: EventStatus | 'all' }[] = [

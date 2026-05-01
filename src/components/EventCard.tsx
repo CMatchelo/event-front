@@ -1,6 +1,6 @@
 'use client';
 
-import { Event } from '@/src/types';
+import { Event } from '@/src/types/Event';
 import { useRouter } from 'next/navigation';
 
 const STATUS_CONFIG = {

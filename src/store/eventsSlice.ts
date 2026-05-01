@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Event, EventsState, EventStatus } from '@/src/types';
+import { EventsState, EventStatus } from '../types/EventState';
 
 const BASE_API = 'http://localhost:3001';
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
   PieChart,
   Pie,
@@ -18,7 +19,7 @@ export default function CheckinProportionChart({
 }: {
   checkins: Checkin[];
 }) {
-  const data = buildProportionData(checkins);
+  const data = useMemo(() => buildProportionData(checkins), [checkins]);
 
   if (data.length === 0) {
     return (
@@ -53,10 +54,7 @@ export default function CheckinProportionChart({
         </PieChart>
       </ResponsiveContainer>
       {/* Center label */}
-      <div
-        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
-        style={{ paddingBottom: "30px" }}
-      >
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center pb-[30px]">
         <span className="text-2xl font-bold text-white">{total}</span>
         <span className="text-xs text-slate-500">total</span>
       </div>

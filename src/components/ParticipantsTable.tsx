@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Participant } from "../types/Participant";
 import { AppEvent } from "../types/Event";
 import { ParticipantRow } from "./ParticipantRow";
+
+const PARTICIPANT_FILTER_OPTIONS = ["all", "inside", "outside"] as const;
 
 interface ParticipantsTableProps {
   participants: Participant[];
@@ -17,11 +19,15 @@ export default function ParticipantsTable({
   const [filter, setFilter] = useState<"all" | "inside" | "outside">("all");
   const [search, setSearch] = useState("");
 
-  const filtered = participants.filter((p) => {
-    const matchStatus = filter === "all" || p.status === filter;
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchStatus && matchSearch;
-  });
+  const filtered = useMemo(
+    () =>
+      participants.filter((p) => {
+        const matchStatus = filter === "all" || p.status === filter;
+        const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+        return matchStatus && matchSearch;
+      }),
+    [participants, filter, search],
+  );
 
   return (
     <div className="rounded-2xl border border-white/8 bg-white/5 shadow-lg overflow-hidden">
@@ -59,7 +65,7 @@ export default function ParticipantsTable({
 
           {/* Status filter */}
           <div className="flex rounded-lg border border-white/8 bg-white/5 p-0.5">
-            {(["all", "inside", "outside"] as const).map((f) => (
+            {PARTICIPANT_FILTER_OPTIONS.map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}

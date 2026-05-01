@@ -10,6 +10,7 @@ import { formatDate } from "../utils/formatDate";
 import { SkeletonDetailPage } from "./SkeletonDetailPage";
 import { StatCard } from "./StatCard";
 import ParticipantsTable from "./ParticipantsTable";
+import { STATUS_CONFIG } from "../constants/status-config.constant";
 
 export default function EventDetailView({ id }: { id: string }) {
   const router = useRouter();
@@ -162,14 +163,12 @@ export default function EventDetailView({ id }: { id: string }) {
                 </div>
                 {/* Status badge */}
                 <span
-                  /* className={`flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium ${STATUS_CONFIG[event.status].badge}`} */
-                  className={`flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium`}
+                  className={`flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium ${STATUS_CONFIG[event.status].badge}`}
                 >
                   <span
-                    className={`h-2 w-2 rounded-full`}
-                    /* className={`h-2 w-2 rounded-full ${STATUS_CONFIG[event.status].dot}`} */
+                    className={`h-2 w-2 rounded-full ${STATUS_CONFIG[event.status].dot}`}
                   />
-                  {/* {STATUS_CONFIG[event.status].label} */}
+                  {STATUS_CONFIG[event.status].label}
                 </span>
               </div>
               {event.description && (

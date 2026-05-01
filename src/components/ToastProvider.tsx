@@ -5,6 +5,9 @@ import { Toast, ToastContextValue, ToastVariant } from '../types/Toast';
 import { VARIANT_TOAST_STYLES } from '../constants/variant-toast-styles.constant';
 import { ToastIcon } from './ToastIcon';
 
+const TOAST_HIDE_DELAY = 3400;
+const TOAST_REMOVE_DELAY = 4000;
+
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -19,10 +22,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       setToasts((prev) =>
         prev.map((t) => (t.id === id ? { ...t, visible: false } : t))
       );
-    }, 3400);
+    }, TOAST_HIDE_DELAY);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
+    }, TOAST_REMOVE_DELAY);
   }, []);
 
   return (

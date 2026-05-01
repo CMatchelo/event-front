@@ -2,8 +2,7 @@ import { createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { Checkin } from '../types/checkin';
 import { AppEvent } from '../types/Event';
 import { Participant } from '../types/Participant';
-
-const BASE_API = 'http://localhost:3001';
+import { BASE_API } from '../constants/api.constant';
 
 interface EventDetailState {
   event: AppEvent | null;

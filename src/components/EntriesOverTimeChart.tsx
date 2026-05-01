@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
   AreaChart,
   Area,
@@ -18,7 +19,7 @@ export default function EntriesOverTimeChart({
 }: {
   checkins: Checkin[];
 }) {
-  const data = buildCumulativeHourlyData(checkins);
+  const data = useMemo(() => buildCumulativeHourlyData(checkins), [checkins]);
 
   if (data.length === 0) {
     return (

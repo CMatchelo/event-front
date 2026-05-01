@@ -2,8 +2,8 @@ import { AppEvent } from "../types/Event";
 import { Participant } from "../types/Participant";
 
 export function canCheckin(participant: Participant, event: AppEvent): { allowed: boolean; reason?: string } {
-  if (event.status === 'closed') {
-    return { allowed: false, reason: 'Event is closed. No check-ins allowed' };
+  if (event.status === 'closed' || event.status === 'cancelled') {
+    return { allowed: false, reason: 'Event is not accepting check-ins' };
   }
   if (participant.type === 'normal' && participant.checkin_count >= 1) {
     return { allowed: false, reason: 'Participant has already checked in' };

@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { EventsState, EventStatus } from '../types/EventState';
 import { AppEvent } from '../types/Event';
-
-const BASE_API = 'http://localhost:3001';
+import { BASE_API } from '../constants/api.constant';
 
 export const fetchEvents = createAsyncThunk<AppEvent[], void, { rejectValue: string }>(
   'events/fetchEvents',

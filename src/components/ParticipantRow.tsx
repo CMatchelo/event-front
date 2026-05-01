@@ -1,6 +1,8 @@
 import { AppEvent } from "../types/Event";
 import { Participant } from "../types/Participant";
 import { useParticipantCheckin } from "../hooks/useParticipantCheckin";
+import { canCheckin, canCheckout } from "../utils/CheckinUtils";
+import { SpinnerIcon } from "./SpinnerIcon";
 
 const TYPE_STYLES = {
   vip: "bg-amber-400/10 text-amber-400 border-amber-400/20",
@@ -23,12 +25,8 @@ export function ParticipantRow({ participant, event }: ParticipantRowProps) {
     event,
   );
 
-  const checkinBlocked =
-    event.status === "closed" ||
-    event.status === "cancelled" ||
-    (participant.type === "normal" && participant.checkin_count >= 1);
-  const checkoutBlocked =
-    event.status === "closed" || participant.status !== "inside";
+  const checkinBlocked = !canCheckin(participant, event).allowed;
+  const checkoutBlocked = !canCheckout(participant, event).allowed;
 
   return (
     <tr className="border-t border-white/5 transition-colors hover:bg-white/3">
@@ -76,25 +74,7 @@ export function ParticipantRow({ participant, event }: ParticipantRowProps) {
             className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-150 ${checkinBlocked ? "cursor-not-allowed border-white/5 bg-white/3 text-slate-600" : "border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:border-emerald-500/50 hover:bg-emerald-500/20 active:scale-95"}`}
           >
             {loading === "entry" ? (
-              <svg
-                className="h-3 w-3 animate-spin"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
+              <SpinnerIcon />
             ) : (
               <svg
                 className="h-3 w-3"
@@ -119,25 +99,7 @@ export function ParticipantRow({ participant, event }: ParticipantRowProps) {
             className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-150 ${checkoutBlocked ? "cursor-not-allowed border-white/5 bg-white/3 text-slate-600" : "border-blue-500/30 bg-blue-500/10 text-blue-400 hover:border-blue-500/50 hover:bg-blue-500/20 active:scale-95"}`}
           >
             {loading === "exit" ? (
-              <svg
-                className="h-3 w-3 animate-spin"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
+              <SpinnerIcon />
             ) : (
               <svg
                 className="h-3 w-3"

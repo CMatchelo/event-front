@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { fetchEvents, setSearchQuery, setStatusFilter, toggleSortDate } from '@/src/store/eventsSlice';
 import EventCard from './EventCard';
 import { SkeletonCard } from './SkeletonCard';
 import { STATUS_OPTIONS } from '../constants/status-options.constant';
 import { SortIcon } from './SortIcon';
+
+const SEARCH_DEBOUNCE_MS = 350;
 
 export default function EventsGrid() {
   const dispatch = useAppDispatch();
@@ -26,28 +28,34 @@ export default function EventsGrid() {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       dispatch(setSearchQuery(val));
-    }, 350);
+    }, SEARCH_DEBOUNCE_MS);
   };
 
-  // Derive filtered + sorted events
-  const filtered = items
-    .filter((e) => {
-      const matchSearch = e.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchStatus = statusFilter === 'all' || e.status === statusFilter;
-      return matchSearch && matchStatus;
-    })
-    .sort((a, b) => {
-      if (!sortDateDirection) return 0;
-      const diff = new Date(a.date).getTime() - new Date(b.date).getTime();
-      return sortDateDirection === 'asc' ? diff : -diff;
-    });
+  const filtered = useMemo(
+    () =>
+      items
+        .filter((e) => {
+          const matchSearch = e.name.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchStatus = statusFilter === 'all' || e.status === statusFilter;
+          return matchSearch && matchStatus;
+        })
+        .sort((a, b) => {
+          if (!sortDateDirection) return 0;
+          const diff = new Date(a.date).getTime() - new Date(b.date).getTime();
+          return sortDateDirection === 'asc' ? diff : -diff;
+        }),
+    [items, searchQuery, statusFilter, sortDateDirection],
+  );
 
-  const sortLabel =
-    sortDateDirection === 'asc'
-      ? 'Date ↑'
-      : sortDateDirection === 'desc'
-      ? 'Date ↓'
-      : 'Sort by Date';
+  const sortLabel = useMemo(
+    () =>
+      sortDateDirection === 'asc'
+        ? 'Date ↑'
+        : sortDateDirection === 'desc'
+        ? 'Date ↓'
+        : 'Sort by Date',
+    [sortDateDirection],
+  );
 
   return (
     <div className="min-h-screen" style={{ background: '#080c14' }}>

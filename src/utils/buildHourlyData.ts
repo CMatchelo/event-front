@@ -1,15 +1,17 @@
 import { Checkin, HourlyEntryPoint } from "../types/checkin";
 
+function formatHour(h: number): string {
+  return `${String(h).padStart(2, '0')}:00`;
+}
+
 export function buildCumulativeHourlyData(checkins: Checkin[]): HourlyEntryPoint[] {
-  // Only successful entries
   const entries = checkins.filter((c) => c.success && c.action === 'entry');
   if (entries.length === 0) return [];
 
   const buckets: Record<string, number> = {};
 
   entries.forEach((c) => {
-    const d = new Date(c.timestamp);
-    const hour = `${String(d.getHours()).padStart(2, '0')}:00`;
+    const hour = formatHour(new Date(c.timestamp).getHours());
     buckets[hour] = (buckets[hour] ?? 0) + 1;
   });
 
@@ -21,7 +23,7 @@ export function buildCumulativeHourlyData(checkins: Checkin[]): HourlyEntryPoint
   const result: HourlyEntryPoint[] = [];
   let cumulative = 0;
   for (let h = first; h <= last; h++) {
-    const key = `${String(h).padStart(2, '0')}:00`;
+    const key = formatHour(h);
     cumulative += buckets[key] ?? 0;
     result.push({ hour: key, entries: cumulative });
   }

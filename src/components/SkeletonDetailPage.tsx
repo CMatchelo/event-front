@@ -1,6 +1,6 @@
 export function SkeletonDetailPage() {
   return (
-    <div className="animate-pulse space-y-6">
+    <div data-testid="skeleton-detail" className="animate-pulse space-y-6">
       <div className="h-4 w-24 rounded-lg bg-white/10" />
       <div className="space-y-2">
         <div className="h-8 w-1/2 rounded-lg bg-white/10" />

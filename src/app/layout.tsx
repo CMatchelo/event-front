@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ReduxProvider from "@/src/components/ReduxProvider";
+import ReduxProvider from "../components/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Event Management Panel",

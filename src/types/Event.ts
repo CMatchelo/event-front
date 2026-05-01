@@ -1,6 +1,6 @@
 export type EventStatus = 'active' | 'closed' | 'cancelled';
 
-export interface Event {
+export interface AppEvent {
   id: string;
   name: string;
   date: string;

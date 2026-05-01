@@ -1,15 +1,16 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { EventsState, EventStatus } from '../types/EventState';
+import { AppEvent } from '../types/Event';
 
 const BASE_API = 'http://localhost:3001';
 
-export const fetchEvents = createAsyncThunk<Event[], void, { rejectValue: string }>(
+export const fetchEvents = createAsyncThunk<AppEvent[], void, { rejectValue: string }>(
   'events/fetchEvents',
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_API}/events`);
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      const data: Event[] = await res.json();
+      const data: AppEvent[] = await res.json();
       return data;
     } catch (err) {
       return rejectWithValue(err instanceof Error ? err.message : 'Failed to fetch events');

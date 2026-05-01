@@ -11,22 +11,7 @@ import {
 } from "recharts";
 import { Checkin } from "../types/checkin";
 import { buildHourlyData } from "../utils/buildHourlyData";
-
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: { value: number }[];
-  label?: string;
-}
-
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="rounded-xl border border-white/10 bg-[#0d1220] px-3 py-2 text-sm shadow-xl">
-      <p className="text-slate-400">{label}</p>
-      <p className="font-semibold text-blue-400">{payload[0].value} entries</p>
-    </div>
-  );
-}
+import { CustomTooltip } from "./CustomTooltip";
 
 export default function EntriesOverTimeChart({
   checkins,

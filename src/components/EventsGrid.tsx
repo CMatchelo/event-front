@@ -3,66 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { fetchEvents, setSearchQuery, setStatusFilter, toggleSortDate } from '@/src/store/eventsSlice';
-import { EventStatus } from '@/src/types/Event';
 import EventCard from './EventCard';
-
-const STATUS_OPTIONS: { label: string; value: EventStatus | 'all' }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Active', value: 'active' },
-  { label: 'Closed', value: 'closed' },
-  { label: 'Cancelled', value: 'cancelled' },
-];
-
-function SortIcon({ dir }: { dir: 'asc' | 'desc' | null }) {
-  if (!dir) {
-    return (
-      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
-      </svg>
-    );
-  }
-  if (dir === 'asc') {
-    return (
-      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
-      </svg>
-    );
-  }
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l-4-4m4 4H13" />
-    </svg>
-  );
-}
-
-// Loading skeleton
-function SkeletonCard() {
-  return (
-    <div className="animate-pulse rounded-2xl border border-white/8 bg-white/5 p-5">
-      <div className="flex justify-between gap-3">
-        <div className="h-4 w-2/3 rounded-lg bg-white/10" />
-        <div className="h-5 w-16 rounded-full bg-white/10" />
-      </div>
-      <div className="mt-4 space-y-2">
-        <div className="h-3 w-1/2 rounded bg-white/8" />
-        <div className="h-3 w-2/5 rounded bg-white/8" />
-      </div>
-      <div className="my-4 h-px bg-white/5" />
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <div className="h-3 w-16 rounded bg-white/8" />
-          <div className="h-3 w-10 rounded bg-white/8" />
-        </div>
-        <div className="flex justify-between">
-          <div className="h-3 w-16 rounded bg-white/8" />
-          <div className="h-3 w-10 rounded bg-white/8" />
-        </div>
-        <div className="h-1.5 w-full rounded-full bg-white/8" />
-      </div>
-      <div className="mt-5 h-8 w-full rounded-xl bg-white/8" />
-    </div>
-  );
-}
+import { SkeletonCard } from './SkeletonCard';
+import { STATUS_OPTIONS } from '../constants/status-options.constant';
+import { SortIcon } from './SortIcon';
 
 export default function EventsGrid() {
   const dispatch = useAppDispatch();
@@ -128,7 +72,7 @@ export default function EventsGrid() {
         {/* Filters */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
           {/* Search */}
-          <div className="relative flex-1 min-w-[220px]">
+          <div className="relative flex-1 min-w-55">
             <svg
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
               fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}

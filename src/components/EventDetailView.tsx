@@ -6,83 +6,9 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchEventDetail, resetEventDetail } from "../store/eventDetailSlice";
 import CheckinProportionChart from "./CheckinProportionChart";
 import EntriesOverTimeChart from "./EntriesOverTimeChart";
-
-const STATUS_CONFIG = {
-  active: {
-    label: "Active",
-    dot: "bg-emerald-400",
-    badge: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
-  },
-  closed: {
-    label: "Closed",
-    dot: "bg-slate-400",
-    badge: "bg-slate-400/10 text-slate-400 border-slate-400/20",
-  },
-  cancelled: {
-    label: "Cancelled",
-    dot: "bg-red-400",
-    badge: "bg-red-400/10 text-red-400 border-red-400/20",
-  },
-} as const;
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-interface StatCardProps {
-  label: string;
-  value: string | number;
-  icon: React.ReactNode;
-  accent?: string;
-}
-
-function StatCard({
-  label,
-  value,
-  icon,
-  accent = "text-blue-400",
-}: StatCardProps) {
-  return (
-    <div className="flex flex-col rounded-2xl border border-white/8 bg-white/5 p-5 shadow-lg">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
-          {label}
-        </span>
-        <span className={`${accent} opacity-70`}>{icon}</span>
-      </div>
-      <span className={`mt-3 text-3xl font-bold ${accent}`}>{value}</span>
-    </div>
-  );
-}
-
-function SkeletonDetailPage() {
-  return (
-    <div className="animate-pulse space-y-6">
-      <div className="h-4 w-24 rounded-lg bg-white/10" />
-      <div className="space-y-2">
-        <div className="h-8 w-1/2 rounded-lg bg-white/10" />
-        <div className="h-4 w-1/3 rounded bg-white/8" />
-        <div className="h-4 w-1/4 rounded bg-white/8" />
-      </div>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-28 rounded-2xl bg-white/5" />
-        ))}
-      </div>
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="h-72 rounded-2xl bg-white/5" />
-        <div className="h-72 rounded-2xl bg-white/5" />
-      </div>
-    </div>
-  );
-}
+import { formatDate } from "../utils/formatDate";
+import { SkeletonDetailPage } from "./SkeletonDetailPage";
+import { StatCard } from "./StatCard";
 
 export default function EventDetailView({ id }: { id: string }) {
   const router = useRouter();

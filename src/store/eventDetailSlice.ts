@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { Checkin } from '../types/checkin';
+import { AppEvent } from '../types/Event';
 
 const BASE_API = 'http://localhost:3001';
 
 interface EventDetailState {
-  event: Event | null;
+  event: AppEvent | null;
   checkins: Checkin[];
   loading: boolean;
   error: string | null;
@@ -18,7 +19,7 @@ const initialState: EventDetailState = {
 };
 
 export const fetchEventDetail = createAsyncThunk<
-  { event: Event; checkins: Checkin[] },
+  { event: AppEvent; checkins: Checkin[] },
   string,
   { rejectValue: string }
 >('eventDetail/fetch', async (eventId, { rejectWithValue }) => {
@@ -31,7 +32,7 @@ export const fetchEventDetail = createAsyncThunk<
     if (!eventRes.ok) throw new Error(`Failed to load event (HTTP ${eventRes.status})`);
     if (!checkinsRes.ok) throw new Error(`Failed to load checkins (HTTP ${checkinsRes.status})`);
 
-    const event: Event = await eventRes.json();
+    const event: AppEvent = await eventRes.json();
     const checkins: Checkin[] = await checkinsRes.json();
 
     return { event, checkins };
